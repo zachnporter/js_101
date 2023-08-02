@@ -15,48 +15,59 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function welcome(language) {
+  prompt(messages('welcome', language));
+}
+
+function chooseLanguage() {
+  prompt(MESSAGES['language']);
+  let language = readline.question();
+
+  while (invalidLanguage(language)) {
+    prompt(MESSAGES['invalidLanguage']);
+    language = readline.question();
+  }
+
+  return language;
+}
+
+function invalidLanguage(language) {
+  return !['en', 'es'].includes(language);
+}
+
+function getNumber(messageKey, language) {
+  prompt(messages(messageKey, language));
+  let number = readline.question();
+
+  while (invalidNumber(number)) {
+    prompt(messages('invalidNumber', language));
+    number = readline.question();
+  }
+
+  return number;
+}
+
 function invalidNumber(number) {
   return number.trimStart() === '' || Number.isNaN(Number(number));
 }
 
-prompt(MESSAGES['language']);
-let chooseLanguage = readline.question();
-
-while (!['1', '2'].includes(chooseLanguage)) {
-  prompt(MESSAGES['invalidLanguage']);
-  chooseLanguage = readline.question();
-}
-
-let language = chooseLanguage === '1' ? 'en' : 'es';
-
-prompt(messages('welcome', language));
-
-let performCalculation = true;
-while (performCalculation) {
-  prompt(messages('firstNumber', language));
-  let number1 = readline.question();
-
-  while (invalidNumber(number1)) {
-    prompt(messages('invalidNumber', language));
-    number1 = readline.question();
-  }
-
-  prompt(messages('secondNumber', language));
-  let number2 = readline.question();
-
-  while (invalidNumber(number2)) {
-    prompt(messages('invalidNumber', language));
-    number2 = readline.question();
-  }
-
+function getOperation(language) {
   prompt(messages('operation', language));
   let operation = readline.question();
 
-  while (!['1', '2', '3', '4'].includes(operation)) {
-    prompt(messages('invalidOperation', language));
+  while (invalidOperator(operation)) {
+    prompt(messages('invalidOperator', language));
     operation  = readline.question();
   }
 
+  return operation;
+}
+
+function invalidOperator(operation) {
+  return !['1', '2', '3', '4'].includes(operation);
+}
+
+function performOperation(number1, number2, operation) {
   let output;
   switch (operation) {
     case '1':
@@ -73,17 +84,67 @@ while (performCalculation) {
       break;
   }
 
-  prompt(`${messages('result', language)} ${output}`);
+  return output;
+}
 
+function printResult(language, result) {
+  prompt(`${messages('result', language)} ${result}`);
+}
+
+function validateOperation(number, operation, language) {
+  while (invalidOperation(number, operation)) {
+    number = getNumber('invalidOperation', language);
+  }
+
+  return number;
+}
+
+function invalidOperation(number, operation) {
+  return (Number(number) === 0) && (operation === '4');
+}
+
+function newCalculation(language) {
   prompt(messages('newCalculation', language));
   let answer = readline.question();
 
-  while ((answer[0].toLowerCase() !== 'y') && (answer[0].toLowerCase() !== 'n')) {
+  while (invalidChoice(answer)) {
     prompt(messages('invalidChoice', language));
     answer = readline.question();
   }
 
-  if (answer[0].toLowerCase() === 'n') performCalculation = false;
+  return answer;
 }
 
-prompt(messages('goodbye', language));
+function invalidChoice(answer) {
+  return !['yes', 'y', 'no', 'n'].includes(answer.toLowerCase());
+}
+
+function goodbye(language) {
+  prompt(messages('goodbye', language));
+}
+
+console.clear();
+
+let language = chooseLanguage();
+welcome(language);
+
+while (true) {
+  let number1 = getNumber('firstNumber', language);
+  let number2 = getNumber('secondNumber', language);
+  let operation = getOperation(language);
+
+  number2 = validateOperation(number2, operation, language);
+
+  let result = performOperation(number1, number2, operation);
+
+  printResult(language, result);
+
+  let restart = newCalculation(language);
+
+  if (restart[0].toLowerCase() === 'n') {
+    goodbye(language);
+    break;
+  }
+
+  console.clear();
+}
