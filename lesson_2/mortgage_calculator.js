@@ -12,24 +12,34 @@
 const readline = require('readline-sync');
 const MESSAGES = require('./mortgage_calculator_messages.json');
 
+const MONTHS = 12;
+
 function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function welcome() {
+function sayHello() {
   prompt(MESSAGES.welcome);
+}
+
+function sayGoodbye() {
+  prompt(MESSAGES.goodbye);
 }
 
 function getLoanAmount() {
   prompt(MESSAGES.loanAmount);
   let amount = readline.question();
 
-  while (invalidNumber(amount)) {
+  while (numberLessThanOne(amount)) {
     prompt(MESSAGES.invalidNumber);
     amount = readline.question();
   }
 
   return amount;
+}
+
+function numberLessThanOne(amount) {
+  return amount.trim() === '' || Number.isNaN(Number(amount)) || Number(amount) <= 0;
 }
 
 function getAnnualPercentageRate() {
@@ -44,24 +54,46 @@ function getAnnualPercentageRate() {
   return rate;
 }
 
-function getLoanDurationInYears() {
+function invalidInterest(rate) {
+  return rate.trim() === '' || Number.isNaN(Number(rate)) || Number(rate) < 0;
+}
+
+function getLoanDurationMeasurement() {
+  prompt(MESSAGES.loanPeriod);
+  let answer = readline.question();
+
+  while (invalidLoanPeriod(answer)) {
+    prompt(MESSAGES.invalidLoanPeriod);
+    answer = readline.question();
+  }
+
+  return answer[0].toLowerCase();
+}
+
+function invalidLoanPeriod(period) {
+  return !['m', 'months', 'y', 'years'].includes(period.toLowerCase());
+}
+
+function getLoanDuration() {
+  let measurement = getLoanDurationMeasurement();
+
   prompt(MESSAGES.loanDuration);
   let duration = readline.question();
 
-  while (invalidNumber(duration)) {
+  while (numberLessThanOne(duration)) {
     prompt(MESSAGES.invalidDuration);
     duration = readline.question();
   }
 
-  return duration;
+  return calculateLoanDurationInMonths(duration, measurement);
 }
 
 function calculateMonthlyInterest(yearlyInterest) {
   return (Number(yearlyInterest) / 12) / 100;
 }
 
-function calculateLoanDurationInMonths(loanYears) {
-  return Number(loanYears) * 12;
+function calculateLoanDurationInMonths(loanDuration, loanMeasurement) {
+  return loanMeasurement === 'y' ? Number(loanDuration) * MONTHS : loanDuration;
 }
 
 function calculateMonthlyPayment(loanAmount, monthlyInterest, loanMonths) {
@@ -77,14 +109,6 @@ function calculateMonthlyPayment(loanAmount, monthlyInterest, loanMonths) {
   return payment;
 }
 
-function invalidNumber(amount) {
-  return amount.trim() === '' || Number.isNaN(Number(amount)) || Number(amount) <= 0;
-}
-
-function invalidInterest(rate) {
-  return rate.trim() === '' || Number.isNaN(Number(rate)) || Number(rate) < 0;
-}
-
 function printResult(monthlyPayment) {
   prompt(MESSAGES.lineBreak);
   prompt(`${MESSAGES.result}${monthlyPayment.toFixed(2)}`);
@@ -95,7 +119,7 @@ function newCalculation() {
   prompt(MESSAGES.newCalculation);
   let answer = readline.question();
 
-  while (invalidAnswer(answer)) {
+  while (notYesOrNo(answer)) {
     prompt(MESSAGES.invalidChoice);
     answer = readline.question();
   }
@@ -103,20 +127,18 @@ function newCalculation() {
   return answer[0].toLowerCase() === 'y';
 }
 
-function invalidAnswer(answer) {
+function notYesOrNo(answer) {
   return !['n', 'no', 'y', 'yes'].includes(answer.toLowerCase());
 }
 
 while (true) {
   console.clear();
-  welcome();
+  sayHello();
 
   let loanAmount = getLoanAmount();
   let yearlyInterest = getAnnualPercentageRate();
-  let loanYears = getLoanDurationInYears();
-
+  let loanMonths = getLoanDuration();
   let monthlyInterest = calculateMonthlyInterest(yearlyInterest);
-  let loanMonths = calculateLoanDurationInMonths(loanYears);
 
   let monthlyPayment =
   calculateMonthlyPayment(loanAmount, monthlyInterest, loanMonths);
@@ -126,4 +148,4 @@ while (true) {
   if (!newCalculation()) break;
 }
 
-prompt(MESSAGES.goodbye);
+sayGoodbye();
