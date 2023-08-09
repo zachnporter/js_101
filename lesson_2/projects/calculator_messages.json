@@ -1,0 +1,31 @@
+{
+  "language": "Please select a language: English (en) or Spanish (es) / Por favor seleccione un idioma: Inglés (en) o Español (es)",
+  "invalidLanguage": "Must choose English (en) or Spanish (es) / Debe elegir Inglés (en) o Español (es)",
+
+  "en": {
+    "welcome": "Welcome to Calculator!",
+    "firstNumber": "What's the first number?",
+    "secondNumber": "What's the second number?",
+    "invalidNumber": "Hmm... that doesn't look like a valid number.",
+    "operation": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+    "invalidOperator": "Must choose 1, 2, 3, or 4",
+    "invalidOperation": "Cannot divide by zero. Choose a new divisor for number 2:",
+    "result": "The result is",
+    "newCalculation": "Would you like to perform another calculation? (y/n)",
+    "invalidChoice": "Please make a valid selection. (y/n)",
+    "goodbye": "Thank you for using my calculator. Goodbye!"
+  },
+  "es": {
+    "welcome": "¡Bienvenido a Calculadora!",
+    "firstNumber": "¿Cuál es el primer número?",
+    "secondNumber": "¿Cuál es el segundo número?",
+    "invalidNumber": "Hmm... eso no parece un número válido.",
+    "operation": "¿Qué operación le gustaría realizar?\n1) Sumar 2) Restar 3) Multiplicar 4) Dividir",
+    "invalidOperator": "Debe elegir 1, 2, 3 o 4",
+    "invalidOperation": "No se puede dividir por cero. Elige un nuevo divisor para el número 2:",
+    "result": "El resultado es",
+    "newCalculation": "¿Desea realizar otro cálculo? (t/n)",
+    "invalidChoice": "Por favor haga una selección válida. (t/n)",
+    "goodbye": "Gracias por usar mi calculadora. ¡Adiós!"
+  }
+}
