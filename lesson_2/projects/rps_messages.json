@@ -1,0 +1,17 @@
+{
+  "welcome": "Welcome to Rock, Paper, Scissors, Lizard, Spock!\n",
+  "readRules": "Would you like to read the rules? (y/n)",
+  "rules": "The rules are as follows:\n- Scissors cuts paper, paper covers rock,\n- rock crushes lizard, lizard poisons Spock,\n- Spock smashes scissors, scissors decapitates lizard,\n- lizard eats paper, paper disproves Spock,\n- Spock vaporizes rock, and rock crushes scissors.",
+  "continue": "Press enter when ready:",
+  "chooseOne": "Choose one: (r)ock, (p)aper, (sc)issors, (l)izzard, (sp)ock:",
+  "invalidChoice": "Please make a valid selection: (r)ock, (p)aper, (sc)issors, (l)izzard, (sp)ock",
+  "youWin": "You win!\n",
+  "computerWins": "Computer wins!\n",
+  "tie": "It's a tie!\n",
+  "playAgain": "Would you like to play again? (y/n)",
+  "invalidAnswer": "Please make a valid selction: (y/n)",
+  "userChamp": "Congrats! You are the Rock, Paper, Scissors, Lizard, Spock Champion!\n",
+  "computerChamp": "Sorry! The computer is the Rock, Paper, Scissors, Lizard, Spock Champion!\n",
+  "goodbye": "Thank you for playing Rock, Paper, Scissors, Lizard, Spock! Goodbye!",
+  "scoreSeperator": "------------------------------------\n"
+}
