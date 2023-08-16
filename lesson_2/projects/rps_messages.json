@@ -1,7 +1,7 @@
 {
   "welcome": "Welcome to Rock, Paper, Scissors, Lizard, Spock!\n",
   "readRules": "Would you like to read the rules? (y/n)",
-  "rules": "The rules are as follows:\n- Scissors cuts paper, paper covers rock,\n- rock crushes lizard, lizard poisons Spock,\n- Spock smashes scissors, scissors decapitates lizard,\n- lizard eats paper, paper disproves Spock,\n- Spock vaporizes rock, and rock crushes scissors.",
+  "rules": "The rules are as follows:\n- Scissors cuts paper, paper covers rock,\n- rock crushes lizard, lizard poisons Spock,\n- Spock smashes scissors, scissors decapitates lizard,\n- lizard eats paper, paper disproves Spock,\n- Spock vaporizes rock, and rock crushes scissors.\n",
   "continue": "Press enter when ready:",
   "chooseOne": "Choose one: (r)ock, (p)aper, (sc)issors, (l)izzard, (sp)ock:",
   "invalidChoice": "Please make a valid selection: (r)ock, (p)aper, (sc)issors, (l)izzard, (sp)ock",

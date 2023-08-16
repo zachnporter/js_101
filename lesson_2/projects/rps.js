@@ -1,6 +1,7 @@
 const readline = require('readline-sync');
 const MESSAGES = require('./rps_messages.json');
-const WINNING_SCORE = 3;
+const WINNING_SCORE = 1;
+
 const VALID_CHOICES = {
   r: 'rock',
   p: 'paper',
@@ -8,12 +9,19 @@ const VALID_CHOICES = {
   l: 'lizard',
   sp: 'spock'
 };
+
 const WINNING_MOVES = {
   rock: ['scissors', 'lizard'],
   paper: ['rock', 'spock'],
   scissors: ['paper', 'lizard'],
   lizard: ['paper', 'spock'],
   spock: ['rock', 'scissors']
+};
+
+const PLAYERS = {
+  player1: 'user',
+  player2: 'computer',
+  tie: 'tie'
 };
 
 function prompt(msg) {
@@ -42,12 +50,12 @@ function askToReadRules() {
   if (answer[0].toLowerCase() === 'y') {
     console.clear();
     prompt(MESSAGES.rules);
-    console.log(`- First to ${WINNING_SCORE} wins!\n`);
   }
 }
 
 function displayCurrentScore(userScore, computerScore) {
   prompt(`User Score: ${userScore}; Computer Score: ${computerScore}`);
+  prompt(`First to ${WINNING_SCORE} wins.`);
   console.log(MESSAGES.scoreSeperator);
 }
 
@@ -83,11 +91,11 @@ function computerTurn() {
 
 function determineWinner(userMove, computerMove) {
   if (WINNING_MOVES[userMove].includes(computerMove)) {
-    return 'user';
+    return PLAYERS.player1;
   } else if (WINNING_MOVES[computerMove].includes(userMove)) {
-    return 'computer';
+    return PLAYERS.player2;
   } else {
-    return 'tie';
+    return PLAYERS.tie;
   }
 }
 
@@ -95,19 +103,19 @@ function printWinner(userMove, computerMove, winner) {
   console.clear();
   prompt(`Your choice: ${userMove}. Computer choice: ${computerMove}\n`);
 
-  if (winner === 'user') {
+  if (winner === PLAYERS.player1) {
     prompt(MESSAGES.youWin);
-  } else if (winner === 'computer') {
+  } else if (winner === PLAYERS.player2) {
     prompt(MESSAGES.computerWins);
-  } else if (winner === 'tie') {
+  } else if (winner === PLAYERS.tie) {
     prompt(MESSAGES.tie);
   }
 }
 
 function printChampion(userScore, computerScore) {
-  if (userScore === WINNING_SCORE) {
+  if (userScore >= WINNING_SCORE) {
     prompt(MESSAGES.userChamp);
-  } else if (computerScore === WINNING_SCORE) {
+  } else if (computerScore >= WINNING_SCORE) {
     prompt(MESSAGES.computerChamp);
   }
 }
@@ -137,11 +145,9 @@ function printGoodbye() {
 }
 
 printWelcome();
-let continueGame = true;
+askToReadRules();
 
-while (continueGame) {
-  askToReadRules();
-
+while (true) {
   let userScore = 0;
   let computerScore = 0;
 
@@ -156,15 +162,15 @@ while (continueGame) {
     let winner = determineWinner(userMove, computerMove);
     printWinner(userMove, computerMove, winner);
 
-    userScore += updateScore(winner, 'user');
-    computerScore += updateScore(winner, 'computer');
+    userScore += updateScore(winner, PLAYERS.player1);
+    computerScore += updateScore(winner, PLAYERS.player2);
 
     displayCurrentScore(userScore, computerScore);
   }
 
   printChampion(userScore, computerScore);
 
-  continueGame = playAgain();
+  if (!playAgain()) break;
   console.clear();
 }
 
